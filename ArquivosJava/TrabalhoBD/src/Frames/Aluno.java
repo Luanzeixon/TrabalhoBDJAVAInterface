@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Luan
  */
 public class Aluno extends javax.swing.JFrame {
-
+    String acao;
     /**
      * Creates new form MENU
      */
@@ -42,8 +42,12 @@ public class Aluno extends javax.swing.JFrame {
         tabela = new javax.swing.JTable();
         TXTATUALIZAR = new javax.swing.JTextField();
         COMBO = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        TXT = new javax.swing.JLabel();
+        BATUALIZAR = new javax.swing.JButton();
+        TXTCAMPO = new javax.swing.JTextField();
+        BMOSTRAR = new javax.swing.JToggleButton();
+        OK = new javax.swing.JButton();
+        TXT2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -55,10 +59,7 @@ public class Aluno extends javax.swing.JFrame {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "NOME", "E-MAIL", "SENHA"
@@ -74,11 +75,42 @@ public class Aluno extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabela);
 
-        COMBO.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DELETAR", "MODIFICAR" }));
+        COMBO.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ESCOLHA UMA AÇÃO", "DELETAR", "MODIFICAR EMAIL", "MODIFICAR SENHA" }));
+        COMBO.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                COMBOItemStateChanged(evt);
+            }
+        });
+        COMBO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                COMBOActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setText("MODIFICAR PELO E-MAIL ALUNO");
+        TXT.setText("MODIFICAR PELO E-MAIL ALUNO");
 
-        jButton1.setText("LIMPAR  E ATUALIZAR TABELA");
+        BATUALIZAR.setText("LIMPAR  PARA ATUALIZAR TABELA");
+        BATUALIZAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BATUALIZARActionPerformed(evt);
+            }
+        });
+
+        TXTCAMPO.setBackground(new java.awt.Color(240, 240, 240));
+
+        BMOSTRAR.setText("MOSTRAR TABELA");
+        BMOSTRAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BMOSTRARActionPerformed(evt);
+            }
+        });
+
+        OK.setText("FAZER AÇÃO");
+        OK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OKActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("INICIO");
         jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -130,44 +162,63 @@ public class Aluno extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(TXT, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, Short.MAX_VALUE)
+                                .addComponent(TXT2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(50, 50, 50))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(COMBO, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(TXTATUALIZAR, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(OK, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(BMOSTRAR, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                                        .addGap(18, 18, 18))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(COMBO, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(TXTATUALIZAR)
+                                        .addGap(18, 18, 18)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(TXTCAMPO)
+                                    .addComponent(BATUALIZAR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(TXT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(TXT2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TXTATUALIZAR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(COMBO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(COMBO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TXTCAMPO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(12, 12, 12)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BATUALIZAR)
+                    .addComponent(BMOSTRAR)
+                    .addComponent(OK))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
-         Inicio a = new Inicio();
+         Cadastrar a = new Cadastrar();
          a.setVisible(true);
     }//GEN-LAST:event_jMenu1MouseClicked
 
@@ -190,22 +241,124 @@ public class Aluno extends javax.swing.JFrame {
          Aluno a = new Aluno();
          a.setVisible(true);
     }//GEN-LAST:event_jMenu5MenuCanceled
-    
-    
-    
-    private void alterar(String email){
-         try {
+
+    private void OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKActionPerformed
+        if(acao.equals("deletar")){
+            deletar();
+        }if(acao.equals("ms")){
+            mudarSenha();
+        }if(acao.equals("me")){
+            mudarEmail();
+        }
+    }//GEN-LAST:event_OKActionPerformed
+
+    private void BATUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BATUALIZARActionPerformed
+        
+        ((DefaultTableModel) tabela.getModel()).setRowCount(0);
+        
+    }//GEN-LAST:event_BATUALIZARActionPerformed
+
+    private void BMOSTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BMOSTRARActionPerformed
+        
+        mostrarTabela();
+        
+    }//GEN-LAST:event_BMOSTRARActionPerformed
+
+    private void COMBOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_COMBOActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_COMBOActionPerformed
+
+    private void COMBOItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_COMBOItemStateChanged
+        if(COMBO.getSelectedItem() == "DELETAR"){
+          TXT.setText("DELETAR PELO EMAIL DO ALUNO");
+          TXTATUALIZAR.setText("colocar EMAIL aqui");
+          acao = "deletar";
+       }if(COMBO.getSelectedItem() == "MODIFICAR EMAIL"){
+          TXT.setText("MODIDICAR EMAIL, PELA SENHA" );
+          TXTCAMPO.setEnabled(true);
+          TXTATUALIZAR.setText("colocar SENHA aqui");
+          TXT2.setText("INSIRA O NOVO EMAIL:");
+          acao = "me";
+       }if(COMBO.getSelectedItem() == "MODIFICAR SENHA"){
+          TXT.setText("MODIDICAR SENHA, PELO EMAIL" );
+          TXTCAMPO.setEnabled(true);
+          TXTATUALIZAR.setText("colocar EMAIL aqui");
+          TXT2.setText("INSIRA A NOVA SENHA:");
+          acao = "ms";
+       }
+    }//GEN-LAST:event_COMBOItemStateChanged
+    private void mostrarTabela() {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:/esquema", "root", "");
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1/escola", "root", "");
 
-            String sql = "update tabela01 set nome = ?, email = ? where email =" + email;
+            String sql = "select * from aluno";
+            
+            PreparedStatement patm = con.prepareStatement(sql);
+           
+            ResultSet rs = patm.executeQuery(); //exclusivo para o comando select
+            
+            DefaultTableModel model = (DefaultTableModel) tabela.getModel(); //pega o modelo da minha tabela existente 
+            
+            while(rs.next()){ //percorrrer todas as linhas dos rs
+                String[] linha = new String[]{
+                    rs.getString("nome"), rs.getString("email"), rs.getString("senha")
+                };
+                model.addRow(linha);
+            }
+            
+            rs.close();
+            patm.close();
+            con.close();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Professor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Professor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void deletar(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1/escola", "root", "");
+
+            String sql = "delete from aluno where email =?";
             
             PreparedStatement patm = con.prepareStatement(sql);
             
-            patm.setString(1, TXTNOME.getText());
+            patm.setString(1, TXTATUALIZAR.getText());
             
-            patm.setString(2, TXTEMAIL.getText());
+            int res = patm.executeUpdate();
+          
+             if(res > 0){
+                JOptionPane.showMessageDialog(null, "deu certo", "opa",JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "deu errado", "vish",JOptionPane.ERROR_MESSAGE);
+            }
+
+             con.close();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Professor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Professor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void mudarSenha(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1/escola", "root", "");
+
+            String sql = "update aluno set  senha = ? where email =?";
+            
+            PreparedStatement patm = con.prepareStatement(sql);
+            
+            patm.setString(1, TXTCAMPO.getText());
+            
+            patm.setString(2, TXTATUALIZAR.getText());
 
             int res = patm.executeUpdate();
           
@@ -219,23 +372,25 @@ public class Aluno extends javax.swing.JFrame {
              con.close();
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Aluno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Professor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Aluno.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Professor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void deletar(int id){
-          try {
+    public void mudarEmail(){
+        try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1/esquema", "root", "");
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1/escola", "root", "");
 
-            String sql = "delete from tabela01 where id =?";
+            String sql = "update aluno set  email = ? where senha =?";
             
             PreparedStatement patm = con.prepareStatement(sql);
             
-            patm.setInt(1, id);
+            patm.setString(1, TXTATUALIZAR.getText());
             
+            patm.setString(2, TXTATUALIZAR.getText());
+
             int res = patm.executeUpdate();
           
              if(res > 0){
@@ -243,112 +398,14 @@ public class Aluno extends javax.swing.JFrame {
             }else{
                 JOptionPane.showMessageDialog(null, "deu errado", "vish",JOptionPane.ERROR_MESSAGE);
             }
-
+             
+             patm.close();
              con.close();
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ExercicioImplemnetBD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Professor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(ExercicioImplemnetBD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       }
-    private void selecionarPorId(int id) {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-
-            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1/esquema", "root", "");
-
-            String sql = "select * from tabela01 where id =?";
-            
-            PreparedStatement patm = con.prepareStatement(sql);
-            
-            patm.setInt(1, id);
-            
-            ResultSet rs = patm.executeQuery(); //exclusivo para o comando select
-            
-            DefaultTableModel model = (DefaultTableModel) tabela.getModel(); //pega o modelo da minha tabela existente 
-            
-            while(rs.next()){ //percorrrer todas as linhas dos rs
-                String[] linha = new String[]{
-                    rs.getString("id"), rs.getString("nome"), rs.getString("email")
-                };
-                model.addRow(linha);
-            }
-            
-            rs.close();
-            patm.close();
-            con.close();
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ExercicioImplemnetBD.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ExercicioImplemnetBD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    private void selecionarPorNome(String nome){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-
-            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1/esquema", "root", "");
-
-            String sql = "select * from tabela01 where nome =?";
-            
-            PreparedStatement patm = con.prepareStatement(sql);
-            
-            patm.setString(1, nome);
-            
-            ResultSet rs = patm.executeQuery(); //exclusivo para o comando select
-            
-            DefaultTableModel model = (DefaultTableModel) tabela.getModel(); //pega o modelo da minha tabela existente 
-            
-            while(rs.next()){ //percorrrer todas as linhas dos rs
-                String[] linha = new String[]{
-                    rs.getString("id"), rs.getString("nome"), rs.getString("email")
-                };
-                model.addRow(linha);
-            }
-            
-            rs.close();
-            patm.close();
-            con.close();
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ExercicioImplemnetBD.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ExercicioImplemnetBD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    private void selecionarPorEmail(String email){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-
-            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1/esquema", "root", "");
-
-            String sql = "select * from tabela01 where email =?";
-            
-            PreparedStatement patm = con.prepareStatement(sql);
-            
-            patm.setString(1, email);
-            
-            ResultSet rs = patm.executeQuery(); //exclusivo para o comando select
-            
-            DefaultTableModel model = (DefaultTableModel) tabela.getModel(); //pega o modelo da minha tabela existente 
-            
-            while(rs.next()){ //percorrrer todas as linhas dos rs
-                String[] linha = new String[]{
-                    rs.getString("id"), rs.getString("nome"), rs.getString("email")
-                };
-                model.addRow(linha);
-            }
-            
-            rs.close();
-            patm.close();
-            con.close();
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ExercicioImplemnetBD.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ExercicioImplemnetBD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Professor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**
@@ -396,10 +453,14 @@ public class Aluno extends javax.swing.JFrame {
           
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BATUALIZAR;
+    private javax.swing.JToggleButton BMOSTRAR;
     private javax.swing.JComboBox<String> COMBO;
+    private javax.swing.JButton OK;
+    private javax.swing.JLabel TXT;
+    private javax.swing.JLabel TXT2;
     private javax.swing.JTextField TXTATUALIZAR;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField TXTCAMPO;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;

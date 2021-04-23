@@ -7,13 +7,13 @@ package Frames;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import trabalhobd.Usuario;
 
 /**
  *
@@ -22,6 +22,7 @@ import trabalhobd.Usuario;
 public class Cadastrar extends javax.swing.JFrame {
     
     String sql = "";
+    String valor = "";
     /**
      * Creates new form Create
      */
@@ -48,7 +49,12 @@ public class Cadastrar extends javax.swing.JFrame {
         TXTSENHA = new javax.swing.JTextField();
         COMBO = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        PROFESSOR = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,12 +80,47 @@ public class Cadastrar extends javax.swing.JFrame {
 
         jLabel4.setText("INSERIR NA TABELA DE");
 
-        jButton1.setText("INICIO");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        jMenu1.setText("INICIO");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
             }
         });
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("ESCOLA");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("TURMA");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu3);
+
+        PROFESSOR.setText("PROFESSOR");
+        PROFESSOR.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PROFESSORMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(PROFESSOR);
+
+        jMenu5.setText("ALUNO");
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu5);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,49 +129,48 @@ public class Cadastrar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(81, 81, 81))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(22, 22, 22)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(COMBO, 0, 130, Short.MAX_VALUE)
-                    .addComponent(TXTNOME, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TXTEMAIL, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TXTSENHA, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BLOGAR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabel3))
+                            .addComponent(jLabel2))
+                        .addGap(82, 82, 82)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(TXTNOME, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(TXTEMAIL, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TXTSENHA, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(COMBO, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BLOGAR, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(TXTNOME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(TXTEMAIL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(TXTSENHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TXTNOME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(COMBO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(TXTEMAIL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(BLOGAR))
-                .addContainerGap(38, Short.MAX_VALUE))
+                    .addComponent(TXTSENHA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                    .addComponent(COMBO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BLOGAR)
+                .addGap(29, 29, 29))
         );
 
         pack();
@@ -146,19 +186,43 @@ public class Cadastrar extends javax.swing.JFrame {
     private void COMBOItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_COMBOItemStateChanged
         if(COMBO.getSelectedIndex() == 0){
           sql = "insert into escola values (?,?,?)" ;
+          valor = "select * from escola where email=? and senha=?";
        }if(COMBO.getSelectedIndex() == 1){
            sql = "insert into turma values (?,?,?)" ;
+           valor = "select * from turma where email=? and senha=?";
        }if(COMBO.getSelectedIndex() == 2){
            sql = "insert into professor values (?,?,?)" ;
+           valor = "select * from professor where email=? and senha=?";
        }if(COMBO.getSelectedIndex() == 3){
            sql = "insert into aluno values (?,?,?)" ;
+           valor = "select * from aluno where email=? and senha=?";
        }
     }//GEN-LAST:event_COMBOItemStateChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Inicio a = new Inicio();
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        Cadastrar a = new Cadastrar();
+         a.setVisible(true);
+    }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        Escola a = new Escola();
+         a.setVisible(true);
+    }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        Turma a = new Turma();
         a.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void PROFESSORMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PROFESSORMouseClicked
+        Professor a = new Professor();
+        a.setVisible(true);
+    }//GEN-LAST:event_PROFESSORMouseClicked
+
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        Aluno a = new Aluno();
+         a.setVisible(true);
+    }//GEN-LAST:event_jMenu5MouseClicked
     
     private void inserir(){
           try {
@@ -166,24 +230,34 @@ public class Cadastrar extends javax.swing.JFrame {
 
             java.sql.Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/escola","root","");
             
-            PreparedStatement patm = con.prepareStatement(sql);
+            PreparedStatement teste = con.prepareStatement(valor);
             
-            patm.setString(1, TXTNOME.getText());
+            teste.setString(1,TXTEMAIL.getText());
             
-            patm.setString(2, TXTEMAIL.getText());
+            teste.setString(2, TXTSENHA.getText());
             
-            patm.setString(3, TXTSENHA.getText());
-
-            int res = patm.executeUpdate();
-
-             if(res > 0){
-                JOptionPane.showMessageDialog(null, "Inserido com sucesso", "",JOptionPane.INFORMATION_MESSAGE);
+            ResultSet rs = teste.executeQuery();
+            
+            if(rs.next()){ // ver se tem algum usuario igual
+                JOptionPane.showMessageDialog(null, "Já tem um email e senha iguais", "",JOptionPane.INFORMATION_MESSAGE);
             }else{
-                JOptionPane.showMessageDialog(null, "Deu um erro", "",JOptionPane.ERROR_MESSAGE);
+                PreparedStatement patm = con.prepareStatement(sql);
+            
+                patm.setString(1, TXTNOME.getText());
+            
+                patm.setString(2, TXTEMAIL.getText());
+            
+                patm.setString(3, TXTSENHA.getText());
+                int res = patm.executeUpdate();
+                if(res > 0){
+                    JOptionPane.showMessageDialog(null, "Inserido com sucesso", "",JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Deu um erro", "",JOptionPane.ERROR_MESSAGE);
+                }
+                patm.close();
             }
-
-             patm.close();
-             con.close();
+                teste.close();
+                con.close();
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Cadastrar.class.getName()).log(Level.SEVERE, null, ex);
@@ -231,13 +305,18 @@ public class Cadastrar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BLOGAR;
     private javax.swing.JComboBox<String> COMBO;
+    private javax.swing.JMenu PROFESSOR;
     private javax.swing.JTextField TXTEMAIL;
     private javax.swing.JTextField TXTNOME;
     private javax.swing.JTextField TXTSENHA;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }

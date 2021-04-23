@@ -5,6 +5,15 @@
  */
 package Frames;
 
+import com.mysql.jdbc.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Luan
@@ -48,6 +57,11 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         BLOGIN.setText("ENTRAR");
+        BLOGIN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BLOGINActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,6 +106,42 @@ public class Inicio extends javax.swing.JFrame {
         c.setVisible(true);
     }//GEN-LAST:event_BCADASTROActionPerformed
 
+    private void BLOGINActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BLOGINActionPerformed
+        ver();
+    }//GEN-LAST:event_BLOGINActionPerformed
+    public void ver(){
+            try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1/escola", "root", "");
+
+            String sql = "select * from professor where email like ?";
+            
+            PreparedStatement patm = con.prepareStatement(sql);
+            
+            patm.setString(1, TXTEMAIL.getText());
+            
+            ResultSet rs = patm.executeQuery();
+          
+             if(rs.next()){
+                 if(rs.equals("0")){
+                     JOptionPane.showMessageDialog(null, "BEM VINDO", "opa",JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    JOptionPane.showMessageDialog(null, "BEM VINDO", "opa",JOptionPane.INFORMATION_MESSAGE);
+                  }else{
+                JOptionPane.showMessageDialog(null, "deu errado", "vish",JOptionPane.ERROR_MESSAGE);
+            }
+             
+             patm.close();
+             con.close();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Professor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Professor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
     /**
      * @param args the command line arguments
      */
